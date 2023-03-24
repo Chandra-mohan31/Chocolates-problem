@@ -8,7 +8,21 @@
 
             Program p = new Program();
             List<string> chocolatesDispensor = new List<string>();
-            
+            addChocolates(chocolatesDispensor, "grey", 3);
+            addChocolates(chocolatesDispensor, "green", 7);
+            foreach (var item in chocolatesDispensor)
+            {
+                Console.Write(item + "|");
+            }
+            //removeChocolates(chocolatesDispensor, 5);
+            dispenseChocolatesofFavColor(chocolatesDispensor, 3, "green");
+            Console.WriteLine();
+            foreach (var item in chocolatesDispensor)
+            {
+                Console.Write(item + "|");
+            }
+            LED(chocolatesDispensor);
+
 
         }
 
@@ -45,10 +59,45 @@
         static string[] dispenseChocolatesofFavColor(List<string> chocoDispensor, int count,string favcolor)
         {
             string[] chocosDispensed = new string[count];
-            
+            int i = 0;
+            for(int j = 0; j < chocoDispensor.Count; j++)
+            {
+                if(i >= count)
+                {
+                    break;
+                }
+                if (chocoDispensor[j] == favcolor)
+                {
+                    chocosDispensed[i++] = favcolor;
+                    chocoDispensor.Remove(chocoDispensor[j]);
+                }
+            }
 
           
             return chocosDispensed;
+        }
+
+        static void LED(List<string> chocoDispensor)
+        {
+            Console.WriteLine();
+            Dictionary<string,int> led =
+                      new Dictionary<string , int>();
+            foreach (var item in chocoDispensor)
+            {
+                if (led.ContainsKey(item))
+                {
+                    led[item]++;
+                }
+                else
+                {
+                    led.Add(item, 1);
+                }
+            }
+            foreach (var item in led)
+            {
+                Console.Write($"{item.Key} : {item.Value}\n"); 
+            }
+
         }
 
 
