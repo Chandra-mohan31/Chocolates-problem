@@ -8,12 +8,11 @@
 
             Program p = new Program();
             List<string> chocolatesDispensor = new List<string>();
-
-
+            
 
         }
 
-        void addChocolates(List<string> chocoDispensor,string color,int count)
+        static void addChocolates(List<string> chocoDispensor,string color,int count)
         {
             for(int i = 0;i<count;i++)
             {
@@ -25,7 +24,7 @@
             string[] chocosRemoved = new string[count];
             for(int i = 0; i < count; i++)
             {
-                chocosRemoved[i] = chocoDispensor[chocoDispensor.Count - 1]
+                chocosRemoved[i] = chocoDispensor[chocoDispensor.Count - 1];
                 chocoDispensor.Remove(chocoDispensor[chocoDispensor.Count -1]);
                 
             }
@@ -36,9 +35,19 @@
             string[] chocosDispensed = new string[count];
             for (int i = 0; i < count; i++)
             {
-                chocoDispensor.Remove(chocosRemoved[i]);
+                chocosDispensed[i] = chocoDispensor[chocoDispensor.Count - 1];
+                chocoDispensor.Remove(chocoDispensor[chocoDispensor.Count - 1]);
 
             }
+            return chocosDispensed;
+        }
+
+        static string[] dispenseChocolatesofFavColor(List<string> chocoDispensor, int count,string favcolor)
+        {
+            string[] chocosDispensed = new string[count];
+            
+
+          
             return chocosDispensed;
         }
 
