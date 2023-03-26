@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿using System.Diagnostics.Metrics;
+using System.Drawing;
+using System.Numerics;
 
 namespace Caitlyn_chocolates
 {
@@ -6,49 +8,101 @@ namespace Caitlyn_chocolates
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Caitlyn Chocolates: ");
-
-            Program p = new Program();
             List<string> chocolatesDispensor = new List<string>();
-            addChocolates(chocolatesDispensor, "grey", 3);
-            addChocolates(chocolatesDispensor, "green", 7);
-            addChocolates(chocolatesDispensor, "white", 2);
-            addChocolates(chocolatesDispensor, "black", 3);
-            addChocolates(chocolatesDispensor, "blue", 1); 
-
-            
-
-
-            foreach (var item in chocolatesDispensor)
+            while (true)
             {
-                Console.Write(item + " | ");
+                Console.WriteLine("Enter 0 to exit: ");
+                Console.Write("\n 1 : Add Chocolates \n 2 : Remove chocolates \n 3 : Dispense Chcolates \n " +
+                    "4 : get a chocolate of your favorite color \n" +
+                    " 5 : Show availability of chocolates \n 6 : Show chocolates in order of count \n " +
+                    "7 : change the wrappers of chocolates \n 8 : Change color of a particular colored chocolates " +
+                    "\n 9 : Remove chocolate of a given color \n");
+
+                
+
+                int v = Convert.ToInt32(Console.ReadLine());
+
+                if(v == 0)
+                {
+                    break;
+                }
+
+
+                switch (v)
+                {
+                    case 1:
+                        
+                        Console.WriteLine("Enter the color of the Chocolate you want to add: ");
+
+                        string color = Console.ReadLine();
+
+                        Console.WriteLine("Enter the count of Chocolates you want to add of the input color: ");
+
+                        int count = Convert.ToInt32((Console.ReadLine()));
+
+                        addChocolates(chocolatesDispensor, color, count);
+                        
+                        break;
+                    case 2:
+                        Console.WriteLine("Enter the count of Chocolates you want to remove from top: ");
+
+                        int cnt = Convert.ToInt32((Console.ReadLine()));
+                        removeChocolates(chocolatesDispensor, cnt);
+                        break;
+                    case 3:
+                        Console.WriteLine("Enter the count of Chocolates you want: ");
+                        int cnt1 = Convert.ToInt32((Console.ReadLine()));
+                        string[] dispensedChocos = dispenseChocolates(chocolatesDispensor, cnt1);
+                        Console.WriteLine(string.Join(",", dispensedChocos));
+                        break;
+                    case 4:
+                        Console.WriteLine("Enter the count of Chocolates you want: ");
+                        int cnt2 = Convert.ToInt32((Console.ReadLine()));
+                        Console.WriteLine("Enter the color of chocolate you want: ");
+                        string color1 = Console.ReadLine();
+                        string[] dispensedChocosFav = dispenseChocolatesofFavColor(chocolatesDispensor, cnt2,color1);
+                        Console.WriteLine(string.Join(",", dispensedChocosFav));
+                        
+                        break;
+                    case 5:
+                        Dictionary<string, int> led = LED(chocolatesDispensor);
+                        foreach(var item in led)
+                        {
+                            Console.WriteLine(item);
+                        }
+                        break;
+                    case 6:
+                        sortChocolateBasedOnCount(LED(chocolatesDispensor));
+                        break;
+                        
+                    case 7:
+                        Console.WriteLine("Enter the no of chocolates to change color: ");
+                        int n = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("Enter the color to be changed:");
+                        string c = Console.ReadLine();
+                        Console.WriteLine("Enter the color to be applied:");
+                        string tc = Console.ReadLine();
+
+                        changeChocoColor(chocolatesDispensor, n, c, tc);
+                        break;
+                    case 8:
+                        Console.WriteLine("Enter the color to be changed:");
+                        string clr = Console.ReadLine();
+                        Console.WriteLine("Enter the color to be applied:");
+                        string tclr = Console.ReadLine();
+                        string[] tarr = changeChocoColorAllOfxCount(chocolatesDispensor, clr, tclr);
+                        Console.WriteLine(string.Join(",", tarr));
+                        break;
+                    case 9:
+                        Console.WriteLine("Enter the color to be removed:");
+                        string clrR = Console.ReadLine();
+                        removeChocolateOfColor(clrR, chocolatesDispensor);
+                        break;
+                    default:
+                        Console.WriteLine("Enter a valid option: ");
+                        break;
+                }
             }
-            Console.WriteLine();
-
-            //string[] changedResult = changeChocoColorAllOfxCount(chocolatesDispensor, "green", "red");
-            //foreach (var item in changedResult)
-            //{
-
-            //    Console.Write(item + " , ");
-            //}
-            //removeChocolates(chocolatesDispensor, 5);
-            //dispenseChocolatesofFavColor(chocolatesDispensor, 3, "green");
-            //Console.WriteLine();
-            //foreach (var item in chocolatesDispensor)
-            //{
-            //    Console.Write(item + "|");
-            //}
-            //Dictionary<string, int>  led = LED(chocolatesDispensor);
-            //foreach (var item in led)
-            //{ 
-            //Console.Write($"{item.Key} : {item.Value}\n"); 
-            //}
-            //Console.WriteLine("\n");
-            //sortChocolateBasedOnCount(led);
-            //Console.WriteLine(chocolatesDispensor.Count());
-
-            //removeChocolateOfColor("green", chocolatesDispensor);
-            //Console.WriteLine(chocolatesDispensor.Count());
 
         }
 
@@ -58,17 +112,19 @@ namespace Caitlyn_chocolates
             {
                 chocoDispensor.Add(color);
             }
+            
         }
-        static string[] removeChocolates(List<string> chocoDispensor,int count)
+        static void removeChocolates(List<string> chocoDispensor,int count)
         {
-            string[] chocosRemoved = new string[count];
-            for(int i = 0; i < count; i++)
-            {
-                chocosRemoved[i] = chocoDispensor[chocoDispensor.Count - 1];
-                chocoDispensor.Remove(chocoDispensor[chocoDispensor.Count -1]);
+            //Console.WriteLine(chocoDispensor.Count);
+            if(count < chocoDispensor.Count)
+                for(int i = 0; i < count; i++)
+                {
+                    Console.WriteLine(chocoDispensor[i]);
+                    chocoDispensor.Remove(chocoDispensor[i]);
                 
-            }
-            return chocosRemoved;
+                }
+            
         }
         static string[] dispenseChocolates(List<string> chocoDispensor, int count)
         {
